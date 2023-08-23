@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <H3>indexedDB demo</H3>
+    <button onclick="ReadDate()">ReadDate</button>
+<script>
+// Open a connection to the database
+var request = indexedDB.open('myDatabase', 1);
+// Create an object store and add data to it
+request.onupgradeneeded = function(event) {
+var db = event.target.result;
+//create object store
+var objectStore = db.createObjectStore('customers', { keyPath: 'id' });
+//add date to object store
+objectStore.add({ id: 1, name: 'John Doe', email: 'john@example.com' });
+objectStore.add({ id: 2, name: 'noha', email: 'noha@example.com' });};
+// Open a connection to the database
+var request = indexedDB.open('myDatabase', 1);
+// Retrieve data from the object store
+request.onsuccess = function(event) {
+	var db = event.target.result;
+	var transaction = db.transaction('customers', 'readonly');
+	var objectStore = transaction.objectStore('customers');
+	var customerRequest = objectStore.get(1);
+    customerRequest.onsuccess = function(event) {
+	var customer = event.target.result;
+	console.log(customer.id,customer.name,customer.email);};};
+
+    </script>
+    
+</body>
+</html>

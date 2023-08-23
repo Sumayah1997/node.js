@@ -9,11 +9,11 @@ function fetchData()
         },3000);
     });
 }
-async function process()
+async function process()//
 {
     try 
     {
-        const data= await fetchData();
+        const data= await fetchData();//await the promise to resolve
         console.log("this is the date my server processed",data);
 
     }
@@ -22,7 +22,7 @@ async function process()
         console.log("there was an error.");
     }
 }
-process();
+process();//calling the async function
 
 
     

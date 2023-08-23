@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3> solveinghhgjy</h3>
+    <form onsubmit="addDate(event)">  
+    <label FOR="name">Name</label>
+    <input type="text" id="name" required><br>
+    <label for="email">Email</label>
+    <input type="email" id="email" required><br>
+    <label for="age">Age</label>
+    <input type="number" id="age" required><br>
+    </form>
+    <button onclick="readDate()">ReadDate</button>
+    <div id="output"></div>
+    <script>
+        
+        let db;
+        function createDB()//function to create the database
+        {
+            const DBName = "MyDatabase";
+            const DBVersion =1;
+            const request= window.indexedDB.open(DBName,DBVersion);
+            request.onerror(event)
+            {console.onerror("error creating database",event.target.error)};
+            request.onupgradeneeded=function(event)
+            {
+                db=event.target.result
+                const objectStore=db.createObjectStore("Customer",{keyPath:"id",autoIncrement:true});
+                objectStore.createIndex("name","name",{unique:false});
+                objectStore.createIndex("email","email",{unique:false});
+                objectStore.createIndex("age","age",{unique:false});
+                console.log("database Created successfully");
+            };
+            request.onsuccess=function(event)
+            {db=event.target.result;   console.log("database opened successfully")};
+
+        }
+        function addDate(event)
+        {
+            event.preventDefault();
+            const Name = document.getElementById("name");
+            const Email = document.getElementById("email");
+            const AgeInput = document.getElementById("age");
+            const transaction =db.transaction(["Customer"],"readwrite");
+            const objectStore=transaction.objectStore(Customer);
+            const data ={name:NameInput, email:EmailInput, age:AgeInput};
+            const request=objectStore.add(data);
+
+            request.onsuccess=function(event) //handling +ve outcomes  
+            {
+                console.log("Date Added");
+                Name.value=""; Email.value=""; Age.value="";};
+                request.onerror=function(event) //handling -ve outcome
+                {console.log("error while adding date",event.target.error);};
+            }
+            function readDate(){
+                const transaction=db.transaction(["Customer"],"readonly");
+                const objectStore = transaction.objectStore("Customer");
+                const request = objectStore.getAll();
+                request.onsuccess=function(event)
+                {
+                    const data=event.target.result;
+                    displayData(data);};
+                    request.onerror = function(event){
+                        console.log("error while reading data!",event.target.error)};
+                    }
+                }
+                function displayData()
+                {
+                    const output = document.getElementById("output");
+                    output.innerHTML="";
+                    if(data.length===0){
+                        console.log("sorry.database is empty!")}
+                        else
+                        {
+                            data.forEach((item)=>
+                            { const paragraph = document.createElement("p");
+                                paragraph.textContent=`Name:${item.name},Email:${item.email},Age:${item.age}`;
+                                output.appendChild(paragraph);
+                                
+                            });
+                        }
+                    }createDB();//call the createDB FUNCTION TO  create the data
+                }
+            }
+            //read date from the objectstore in the
+        }
+    </script>
+</body>
+</html>

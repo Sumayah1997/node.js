@@ -10,12 +10,14 @@
   "author": "sumayah",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "express": "^4.18.2",
-    "inquirer": "^9.2.7",
+    "inquirer": "^9.2.9",
     "md5": "^2.3.0",
     "qr-image": "^3.2.0",
     "sillyname": "^0.1.0",
     "socket.io": "^4.7.1",
-    "superheroes": "^3.0.0"
+    "superheroes": "^3.0.0",
+    "xml": "^1.0.1"
   }
 }
